@@ -1,5 +1,8 @@
 public class q2 {
         public boolean isPalindrome(int x) {
+            int a = 0;
+            int b = 1;
+            int c = 2;
             String str = String.valueOf(x);
             int length = str.length();
             int condition = length / 2;
