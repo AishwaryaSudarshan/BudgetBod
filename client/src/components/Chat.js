@@ -1,65 +1,88 @@
 import React, { useState } from 'react';
 
-function Chat() {
-  const [recipes, setRecipes] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+const Chat = () => {
+  const [dietaryRestrictions, setDietaryRestrictions] = useState([]);
+  const [calories, setCalories] = useState({min: 0, max: 5000});
+  const [budget, setBudget] = useState({min: 0, max: 1000});
 
-  const fetchRecipes = async () => {
-    // Reset states
-    setLoading(true);
-    setError('');
-    setRecipes([]);
-
-    const requestData = {
-      dietary_preference: 'gluten-free',
-      calorie_amount: '1500 calories',
-      budget_amount: '$15'
-    };
-
-    try {
-      const response = await fetch('http://127.0.0.1:5000', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-      });
-
-      if (!response.ok) {
-        throw new Error(`Network response was not ok (${response.status})`);
-      }
-
-      const data = await response.json();
-      setRecipes(data.recipes);
-    } catch (error) {
-      console.error("Failed to fetch recipes:", error);
-      setError('Failed to fetch recipes. Please try again.');
-    } finally {
-      setLoading(false);
-    }
+  const handleDietaryChange = (event) => {
+    const value = Array.from(
+      event.target.selectedOptions,
+      (option) => option.value
+    );
+    setDietaryRestrictions(value);
   };
 
+  const handleCaloriesChange = (event) => {
+    setCalories({
+      ...calories,
+      [event.target.name]: parseInt(event.target.value, 10),
+    });
+  };
+
+  const handleBudgetChange = (event) => {
+    setBudget({
+      ...budget,
+      [event.target.name]: parseFloat(event.target.value),
+    });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const dataToSend = {
+      dietaryRestrictions,
+      calories,
+      budget,
+    };
+    
+    fetch('http://localhost:3001/generate-recipes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(dataToSend),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      // Handle success response
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      // Handle errors here
+    });
+  };
+
+    // console.log(JSON.stringify(dataToSend));
+    // Here you would typically send this data to your backend endpoint
+
   return (
-    <div>
-      <h2>Recipe Generator</h2>
-      <button onClick={fetchRecipes} disabled={loading}>
-        {loading ? 'Loading...' : 'Get Recipes'}
-      </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <div>
-        {recipes.length > 0 ? (
-          recipes.map((recipe, index) => (
-            <div key={index} style={{ marginBottom: '20px' }}>
-              <p>{recipe}</p>
-            </div>
-          ))
-        ) : (
-          !loading && <p>No recipes to display. Click "Get Recipes" to start.</p>
-        )}
-      </div>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Dietary Restrictions:
+        <select multiple={true} value={dietaryRestrictions} onChange={handleDietaryChange}>
+          <option value="vegan">Vegan</option>
+          <option value="vegetarian">Vegetarian</option>
+          <option value="glutenFree">Gluten Free</option>
+          <option value="kosher">Kosher</option>
+        </select>
+      </label>
+      <br />
+      <label>
+        Calories Range:
+        Min: <input type="number" name="min" value={calories.min} onChange={handleCaloriesChange} />
+        Max: <input type="number" name="max" value={calories.max} onChange={handleCaloriesChange} />
+      </label>
+      <br />
+      <label>
+        Budget Range ($):
+        Min: <input type="number" step="0.01" name="min" value={budget.min} onChange={handleBudgetChange} />
+        Max: <input type="number" step="0.01" name="max" value={budget.max} onChange={handleBudgetChange} />
+      </label>
+      <br />
+      <button type="submit">Submit</button>
+    </form>
   );
-}
+};
 
 export default Chat;
