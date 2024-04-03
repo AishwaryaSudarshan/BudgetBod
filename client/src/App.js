@@ -14,14 +14,13 @@ import MasonryImageList from './components/MasonryImageList';
 function App() {
   return (
     <>
-    <p>Hi</p>
     <div className="">
       <Router>
       <div>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Homepage />} />
-          <Route path="/home" element={<MasonryImageList />} />
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<MasonryImageList />} />
+          <Route path="/home" element={<Homepage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/settings" element={<SettingsPage />} />
