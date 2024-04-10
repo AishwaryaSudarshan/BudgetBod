@@ -12,7 +12,6 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Background from '../images/budgetbodwallpaper.jpeg';
 
 function Copyright(props) {
   return (
@@ -31,14 +30,22 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function CreateAccountSide() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      confirmPassword: data.get('confirmPassword')
     });
+    const password = data.get('password');
+    const confirmPassword = data.get('confirmPassword');
+    if (password !== confirmPassword) {
+      // Handle password mismatch error
+      alert('Passwords do not match');
+      return;
+    }
   };
 
   return (
@@ -58,11 +65,12 @@ export default function SignInSide() {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-        />
+        >
           <Box sx={{ position: 'absolute', top: '50%', left: '30%', transform: 'translate(-50%, -50%)', textAlign: 'center', color: '#FFF' }}>
             <Typography variant="h1" sx={{ fontWeight: 'bold' }}>BUDGETBOD</Typography>
             <Typography variant="subtitle1">Track your fitness and calories in one place</Typography>
           </Box>
+        </Grid>
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -74,7 +82,7 @@ export default function SignInSide() {
             }}
           >
             <Typography component="h1" variant="h5" sx = {{mr: 69.9, fontWeight: 'bold'}}> 
-              Log in
+              Create Account
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -86,6 +94,8 @@ export default function SignInSide() {
                 name="email"
                 autoComplete="email"
                 autoFocus
+                variant="outlined"
+                sx={{ borderRadius: 1000 }}
               />
               <TextField
                 margin="normal"
@@ -96,20 +106,28 @@ export default function SignInSide() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                variant="outlined"
+                sx={{ borderRadius: 1000 }}
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+                <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="new-password"
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, color: 'black', backgroundColor: '#bbe2bb' }}
+                sx={{ mt: 3, mb: 2, color: 'black', backgroundColor: '#bbe2bb', width: '100%'}}
               >
-                Log In
+                Create Account
               </Button>
-              <Copyright sx={{ mt: 5 }} />
+              <Copyright sx={{ mt: 12 }} />
             </Box>
           </Box>
         </Grid>
