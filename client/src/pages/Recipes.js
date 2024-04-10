@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import Loading from "../components/Loading";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 
 function Recipes() {
+  const { isAuthenticated } = useAuth0();
   // State to manage visibility of recipes information
   const [showRecipes, setShowRecipes] = useState(false);
 
@@ -47,4 +50,6 @@ function Recipes() {
   );
 }
 
-export default Recipes;
+export default withAuthenticationRequired (Recipes, {
+  onRedirecting: () => <Loading />,
+});
