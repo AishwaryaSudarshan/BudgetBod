@@ -1,7 +1,7 @@
 import React from 'react';
 import Loading from "../components/Loading";
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
-
+ 
 function SettingsPage() {
   const { isAuthenticated } = useAuth0();
   return (
@@ -10,7 +10,7 @@ function SettingsPage() {
     </div>
   );
 }
-
+ 
 export default withAuthenticationRequired (SettingsPage, {
   onRedirecting: () => <Loading />,
 });
