@@ -17,7 +17,7 @@ function App() {
       <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<MasonryImageList />} />
+          <Route path="/login" element={<MasonryImageList />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/recipes" element={<Recipes />} />

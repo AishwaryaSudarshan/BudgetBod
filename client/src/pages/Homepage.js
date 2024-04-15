@@ -1,8 +1,15 @@
 import React from 'react';
 import Card from '../components/Card';
+import Loading from "../components/Loading";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+
+import queryString from "qs";
 
 
-function Homepage() {
+const Homepage = ({ location }) => {
+  const { isAuthenticated } = useAuth0();
+  const { code } = queryString.parse(location);
+    
   return (
     <>
       <div className='flex justify-center'>
@@ -32,4 +39,6 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default withAuthenticationRequired (Homepage, {
+  onRedirecting: () => <Loading />,
+});
