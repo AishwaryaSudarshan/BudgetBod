@@ -3,9 +3,6 @@ import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useNavigate } from 'react-router-dom';
-import LoginButton from "./LoginButton";
-
-
 
 function MasonryImageList() {
   const itemData = [
@@ -22,7 +19,7 @@ function MasonryImageList() {
       title: 'BUDGETBOD',
     },
     {
-      img: 'avacado.svg',
+      img: 'avacado.svg', // Corrected typo here
       title: 'avacado',
     },
     {
@@ -34,7 +31,7 @@ function MasonryImageList() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ width: '100%', height: '100vh' }}>
+    <Box sx={{ width: '100%', height: 'calc(100vh - 50px)', overflow: 'hidden' }}>
       <ImageList variant="masonry" cols={3} gap={8}>
         {itemData.map((item) => (
           <ImageListItem key={item.img} className='h-full'>
@@ -51,11 +48,16 @@ function MasonryImageList() {
                   <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-6xl font-bold whitespace-nowrap z-10">
                     {item.title}
                   </div>
-                  <div className="absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm whitespace-nowrap z-10">
+                  <div className="absolute top-[55%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-sm whitespace-nowrap z-10">
                     Track your fitness and calories all in one place.
                   </div>
-                  <div className="absolute top-[70%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white px-5 py-2 rounded cursor-pointer z-10">
-                    <LoginButton/>
+                  <div className="absolute top-[60%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white px-5 py-2 rounded cursor-pointer z-10">
+                    <button
+                      className="text-white bg-transparent border-none text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600"
+                      onClick={() => navigate('/home')}
+                    >
+                      Login
+                    </button>
                   </div>
                 </>
               )}

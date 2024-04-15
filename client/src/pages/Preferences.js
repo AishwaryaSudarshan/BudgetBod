@@ -61,19 +61,6 @@ const Preferences = () => {
     <div className="container mx-auto px-4 py-4">
       <div className='flex w-full h-12 gap-x-96'>
         <h1 className="text-3xl font-bold mb-36 mr-60 ml-64">Preferences</h1>
-        <div className='flex align-items justify-center mx-20'>
-        <Button variant="contained" 
-          color="secondary" 
-          startIcon={<Logout />}
-          sx={{
-            backgroundColor: 'white', 
-            '&:hover': {
-              backgroundColor: '#BFDAB3', 
-            },
-            color: 'black', 
-          }} >
-          Logout</Button>
-        </div>
       </div>
     <div className='text-center'>
       <form onSubmit={handleSubmit}>
