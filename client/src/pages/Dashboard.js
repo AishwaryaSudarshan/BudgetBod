@@ -12,6 +12,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
+import Loading from "../components/Loading";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
+
 var isToday = require('dayjs/plugin/isToday')
 dayjs.extend(isToday)
 
@@ -20,7 +23,7 @@ function Dashboard() {
   const [activityText, setActivityText] = useState("");
   const [date, dateSet] = useState(dayjs());
   const [streak, streakSet] = useState("0");
-
+  const { isAuthenticated } = useAuth0();
   return (
     <div className="flex justify-center items-center h-screen">
       <h1 className="text-3xl font-bold">Dashboard</h1>
@@ -102,4 +105,6 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default withAuthenticationRequired (Dashboard, {
+  onRedirecting: () => <Loading />,
+});

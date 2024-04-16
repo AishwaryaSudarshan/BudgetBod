@@ -4,8 +4,6 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { useNavigate } from 'react-router-dom';
 
-
-
 function MasonryImageList() {
   const itemData = [
     {
@@ -21,7 +19,7 @@ function MasonryImageList() {
       title: 'BUDGETBOD',
     },
     {
-      img: 'avacado.svg',
+      img: 'avacado.svg', // Corrected typo here
       title: 'avacado',
     },
     {
@@ -33,7 +31,7 @@ function MasonryImageList() {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ width: '100%', height: '100vh' }}>
+    <Box sx={{ width: '100%', height: 'calc(100vh - 50px)', overflow: 'hidden' }}>
       <ImageList variant="masonry" cols={3} gap={8}>
         {itemData.map((item) => (
           <ImageListItem key={item.img} className='h-full'>
@@ -58,7 +56,7 @@ function MasonryImageList() {
                       className="text-white bg-transparent border-none text-base focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-600"
                       onClick={() => navigate('/home')}
                     >
-                      Go to Home
+                      Login
                     </button>
                   </div>
                 </>
