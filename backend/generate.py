@@ -62,7 +62,7 @@ def processLLMResponse(response):
         print("The response is not in valid JSON format.")
         return None  # Return something to indicate an error
 
-@app.route('/api/generate-recipes', methods=['POST'])
+
 def generate_recipes(preferences):
     prompt = f"As BudgetBod, generate 3 meal recipes that are {preferences['dietaryRestrictions']}, approximately {preferences['calories']} calories, and cost under ${preferences['budget']}. Provide each recipe in JSON format with keys 'Name of Dish', 'Calorie Amount', 'Price of All Ingredients', 'Number of Servings', 'All Ingredients', and 'List of Steps'."
 
@@ -111,8 +111,9 @@ else:
     latest_message = messages[0]
     print(f"Response: {latest_message.content[0].text.value}")
 
-try:
-    response_json = json.loads(latest_message.content[0].text.value)
-    print(json.dumps(response_json, indent=4))
-except json.JSONDecodeError:
-    print("The response is not in valid JSON format.")
+
+# try:
+#     response_json = json.loads(latest_message.content[0].text.value)
+#     print(json.dumps(response_json, indent=4))
+# except json.JSONDecodeError:
+#     print("The response is not in valid JSON format.")
