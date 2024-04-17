@@ -4,7 +4,7 @@
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "express": "^4.19.1",
-    "mysql2": "^3.9.2", 
-    "proxy": "http://localhost:5001"
+    "mysql2": "^3.9.2",
+    "node": "^18.20.2"
   }
 }
