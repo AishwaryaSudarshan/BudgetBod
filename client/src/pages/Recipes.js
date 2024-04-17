@@ -119,6 +119,7 @@ function Recipes() {
           </div>
         </div>
       </div>
+      <h1 className="text-2xl font-bold pl-14">Recipes</h1> 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-16">
         {displayedRecipes.map((recipe) => (
           <a href={recipe.link} target="_blank" rel="noreferrer" key={recipe.title} className="bg-white shadow-md rounded-md p-4 hover:bg-gray-200 transition duration-300 ease-in-out block">

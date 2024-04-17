@@ -27,7 +27,7 @@ function FAQPage() {
 
   return (
     <div className="faq-container">
-      <h1>FAQ</h1>
+      <h1 className="text-2xl font-bold pb-12 text-center">FAQ</h1> 
       {faqs.map((faq, index) => (
         <div key={index} className="faq-item">
           <h3>{faq.question}</h3>

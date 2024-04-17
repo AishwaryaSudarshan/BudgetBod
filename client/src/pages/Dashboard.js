@@ -26,42 +26,54 @@ function Dashboard() {
   const { isAuthenticated } = useAuth0();
   return (
     <div className="h-screen">
-      <div className="pt-12">
-        <h1 className="text-3xl font-bold text-center">Dashboard</h1>
-      </div>
-
-      <div className="max-w-4xl mx-auto p-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Streak Card */}
-          <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center">
-            <span className="text-gray-500 text-sm">Daily Streak</span>
-            <span className="text-xl font-semibold">{streak} days</span>
+      <div className="flex items-center justify-center mx-auto pt-12">
+          <div className="flex justify-around items-center gap-x-10">          
+          {/* Streak */}
+          <div>
+            <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center h-44 w-80">
+              <span className="text-gray-500 text-sm pt-10">Daily Streak</span>
+              <span className="text-xl font-semibold">{streak} days</span>
+            </div>
+            <div className='pt-20'>
+              <img src='dashboard2.svg' alt='dashboard2'/>
+            </div>
           </div>
-
+          {/* Image */}
+          <div className='flex'>
+            <img src='dashboard1.svg' alt='dashboard1'/>
+          </div>
           {/* Calendar */}
-          <div className="md:col-span-2">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateCalendar disableFuture onChange={(newValue) => dateSet(newValue)} showDaysOutsideCurrentMonth fixedWeekNumber={6} />
-          </LocalizationProvider>
-          </div>
-
+          <div className=''>
+            <div className='rounded-lg'>
+              {/* <img src='shoes1.svg' alt='shoes' className=''/> */}
+            </div>
+            <div className="md:col-span-2 flex">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateCalendar disableFuture onChange={(newValue) => dateSet(newValue)} showDaysOutsideCurrentMonth fixedWeekNumber={6} />
+              </LocalizationProvider>
+            </div>
           {/* Input Fields and Buttons */}
           <div className="md:col-span-3 space-y-4">
-            <input
-              id="calorie-intake-field"
-              type="text"
-              placeholder="Enter Calorie Intake"
-              className="input input-bordered w-full"
-              onChange={(e) => setCalorieText(e.target.value)}
-            />
-            <input
-              id="activity-type-field"
-              type="text"
-              placeholder="Enter Activity"
-              className="input input-bordered w-full"
-              onChange={(e) => setActivityText(e.target.value)}
-            />
-            <div className="flex space-x-2">
+          <div>
+          <input
+            id="calorie-intake-field"
+            type="text"
+            placeholder="Enter Calorie Intake"
+            className="input input-bordered w-full shadow-md rounded-lg p-4 ml-4 w-72"
+            onChange={(e) => setCalorieText(e.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            id="activity-type-field"
+            type="text"
+            placeholder="Enter Activity"
+            className="input input-bordered w-full shadow-md rounded-lg p-4 ml-4 w-72"
+            onChange={(e) => setActivityText(e.target.value)}
+          />
+        </div>
+            <div className='flex justify-center'>
+            <div className="flex space-x-2 bg-[#BFDAB3] justify-center w-20 rounded-lg py-2 text-center">
                <button variant="contained"
                 onClick={e => {
                   e.preventDefault();
@@ -103,21 +115,13 @@ function Dashboard() {
                 }} >
                 Save
                 </button>
-              <button
-                className="btn btn-outline flex-1"
-                onClick={() => {
-                  axios.post('http://localhost:3000/dashboard/clear')
-                  .then(res => {
-                    console.log(res.data);
-                      })
-                  }} >
-                Clear db
-              </button>
+            </div>
             </div>
           </div>
         </div>
+        </div>
+          </div>
       </div>
-    </div>
   );
 }
 

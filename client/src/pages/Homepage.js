@@ -26,7 +26,7 @@ const Homepage = ({ location }) => {
             title="Preferences"
             description="Keep track of the calories you burn. We take your fitness into account for your daily progress tracker. "
             icon="preferencesIcon.svg"
-            redirectTo="/settings"
+            redirectTo="/recipes"
           />
           <Card
             title="Curated Recipes"
