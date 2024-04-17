@@ -25,86 +25,102 @@ function Dashboard() {
   const [streak, streakSet] = useState("0");
   const { isAuthenticated } = useAuth0();
   return (
-    <div className="flex justify-center items-center h-screen">
-      <h1 className="text-3xl font-bold">Dashboard</h1>
+    <div className="h-screen">
+      <div className="pt-12">
+        <h1 className="text-3xl font-bold text-center">Dashboard</h1>
+      </div>
 
-      <Card variant="outlined">
-        <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Daily Streak
-        </Typography>
+      <div className="max-w-4xl mx-auto p-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Streak Card */}
+          <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center">
+            <span className="text-gray-500 text-sm">Daily Streak</span>
+            <span className="text-xl font-semibold">{streak} days</span>
+          </div>
 
-        <Typography variant="h6" component="div">
-          {streak}
-        </Typography>
+          {/* Calendar */}
+          <div className="md:col-span-2">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateCalendar disableFuture onChange={(newValue) => dateSet(newValue)} showDaysOutsideCurrentMonth fixedWeekNumber={6} />
+          </LocalizationProvider>
+          </div>
 
-        </CardContent>
-      </Card>
+          {/* Input Fields and Buttons */}
+          <div className="md:col-span-3 space-y-4">
+            <input
+              id="calorie-intake-field"
+              type="text"
+              placeholder="Enter Calorie Intake"
+              className="input input-bordered w-full"
+              onChange={(e) => setCalorieText(e.target.value)}
+            />
+            <input
+              id="activity-type-field"
+              type="text"
+              placeholder="Enter Activity"
+              className="input input-bordered w-full"
+              onChange={(e) => setActivityText(e.target.value)}
+            />
+            <div className="flex space-x-2">
+               <button variant="contained"
+                onClick={e => {
+                  e.preventDefault();
+                  const submitData = {
+                    date: date.format('YYYY-MM-DD'), 
+                    calText: calorieText, 
+                    actText: activityText
+                  };
+                  axios.post('http://localhost:3000/dashboard', submitData)
+                    .then(res => {
+                      console.log(res);
+                      console.log(res.data);
+                    })
 
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar disableFuture onChange={(newValue) => dateSet(newValue)} showDaysOutsideCurrentMonth fixedWeekNumber={6} />
-      </LocalizationProvider>
-      
+                  axios.get('http://localhost:3000/dashboard')
+                    .then(res => {
+                      //console.log(Object.prototype.toString.call(res.data[0].date))
+                        
+                      const dateSet = res.data.map(temp => dayjs(temp.date));
+                      dateSet.sort((a, b) => b.diff(a, 'day'));
+                      if(dateSet.length === 0 && !dateSet[0].isToday()){
+                        streakSet('0');
+                      }
+                      else{
+                        for (let i = 1; i < dateSet.length; i++) {
+                          
+                          const diffInDays = dateSet[i].diff(dateSet[i - 1], 'day');
+                          // If the difference is 1 day, increment the streak
+                          streakSet(i.toString());
+                          if (diffInDays < -1) {
+                            console.log("broke");
+                            break;
+                          }
+                      }
+                      }
 
-      <TextField id="calorie-intake-field" label="Calorie intake" variant="outlined" onChange={(newValue) => setCalorieText(newValue.target.value)}/>
-      <TextField id="activity-type-field" label="Activity type" variant="outlined" onChange={(newValue) => setActivityText(newValue.target.value)}/>
+                    })
 
-      <Button variant="contained"
-        onClick={e => {
-          e.preventDefault();
-          const submitData = {
-            date: date.format('YYYY-MM-DD'), 
-            calText: calorieText, 
-            actText: activityText
-          };
-          axios.post('http://localhost:3000/dashboard', submitData)
-            .then(res => {
-              console.log(res);
-              console.log(res.data);
-            })
-
-          axios.get('http://localhost:3000/dashboard')
-            .then(res => {
-              //console.log(Object.prototype.toString.call(res.data[0].date))
-                
-              const dateSet = res.data.map(temp => dayjs(temp.date));
-              dateSet.sort((a, b) => b.diff(a, 'day'));
-              if(dateSet.length === 0 && !dateSet[0].isToday()){
-                streakSet('0');
-              }
-              else{
-                for (let i = 1; i < dateSet.length; i++) {
-                  
-                  const diffInDays = dateSet[i].diff(dateSet[i - 1], 'day');
-                  // If the difference is 1 day, increment the streak
-                  streakSet(i.toString());
-                  if (diffInDays < -1) {
-                    console.log("broke");
-                    break;
-                  }
-              }
-              }
-
-            })
-
-        }} >
-        Save
-      </Button>
-
-      <Button variant="contained"
-        onClick={() => {
-            axios.post('http://localhost:3000/dashboard/clear')
-            .then(res => {
-              console.log(res.data);
-            })
-
-        }} >
-        Clear db
-      </Button>
+                }} >
+                Save
+                </button>
+              <button
+                className="btn btn-outline flex-1"
+                onClick={() => {
+                  axios.post('http://localhost:3000/dashboard/clear')
+                  .then(res => {
+                    console.log(res.data);
+                      })
+                  }} >
+                Clear db
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
 
-export default withAuthenticationRequired (Dashboard, {
+export default withAuthenticationRequired(Dashboard, {
   onRedirecting: () => <Loading />,
 });

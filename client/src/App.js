@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Recipes from './pages/Recipes';
 import Preferences from './pages/Preferences';
 import MasonryImageList from './components/MasonryImageList';
+import FAQ from './pages/Faq';
 
 // import './App.css';
 
@@ -21,12 +22,10 @@ function App() {
           <Route path="/home" element={<Homepage />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/recipes" element={<Recipes />} />
-          <Route path="/settings" element={<Preferences />} />
+          <Route path="/faq" element={<FAQ />} />
         </Routes>
       </div>
     </Router>
-      {/* <Chat />
-      <SignInSide /> */}
     </div>
     </>
   );
