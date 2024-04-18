@@ -3,7 +3,7 @@ const db = require('./config/db')
 const cors = require('cors')
 
 const app = express();
-const  PORT = 3000;
+const  PORT = 3001;
 
 app.use(cors());
 app.use(express.json())
@@ -42,6 +42,14 @@ app.post("/Dashboard", (req, res)=>{
             res.status(200).send("Data added to dashboard successfully");
         }
     }); });
+
+    app.get("/stats", (req,res)=>{
+        db.query("SELECT DISTINCT date, calIntake, actType FROM dashTable", (err,result)=>{
+            if(err) {
+            console.log(err)
+            } 
+        res.send(result)
+        }); });
 
 app.post("/Dashboard/clear", (req, res)=>{
 

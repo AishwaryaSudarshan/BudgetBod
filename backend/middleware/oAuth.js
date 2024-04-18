@@ -2,7 +2,7 @@ var axios = require("axios");
 
 const tokenEnpoint = "https://ambient-coder.us.auth0.com/oauth/token";
 
-const pAuth = (req, res, next) => {
+const oAuth = (req, res, next) => {
     var code = req.query.code;
 
     if(!code) {
@@ -28,4 +28,4 @@ const pAuth = (req, res, next) => {
 
 }
 
-module.export = oAuth;
+module.exports = oAuth;

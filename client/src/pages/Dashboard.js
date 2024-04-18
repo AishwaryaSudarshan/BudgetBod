@@ -4,10 +4,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
@@ -19,11 +15,11 @@ var isToday = require('dayjs/plugin/isToday')
 dayjs.extend(isToday)
 
 function Dashboard() {
-  const [calorieText, setCalorieText] = useState("");
+  const [calorieText, setCalorieText] = useState(0);
   const [activityText, setActivityText] = useState("");
   const [date, dateSet] = useState(dayjs());
   const [streak, streakSet] = useState("0");
-  const { isAuthenticated } = useAuth0();
+
   return (
     <div className="h-screen">
       <div className="flex items-center justify-center mx-auto pt-12">
@@ -32,7 +28,7 @@ function Dashboard() {
           <div>
             <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center h-44 w-80">
               <span className="text-gray-500 text-sm pt-10">Daily Streak</span>
-              <span className="text-xl font-semibold">{streak} days</span>
+              <span className="text-xl font-semibold">{streak}</span>
             </div>
             <div className='pt-20'>
               <img src='dashboard2.svg' alt='dashboard2'/>
@@ -57,7 +53,7 @@ function Dashboard() {
           <div>
           <input
             id="calorie-intake-field"
-            type="text"
+            type="number"
             placeholder="Enter Calorie Intake"
             className="input input-bordered w-full shadow-md rounded-lg p-4 ml-4 w-72"
             onChange={(e) => setCalorieText(e.target.value)}
@@ -88,29 +84,28 @@ function Dashboard() {
                       console.log(res.data);
                     })
 
-                  axios.get('http://localhost:3000/dashboard')
-                    .then(res => {
-                      //console.log(Object.prototype.toString.call(res.data[0].date))
-                        
-                      const dateSet = res.data.map(temp => dayjs(temp.date));
-                      dateSet.sort((a, b) => b.diff(a, 'day'));
-                      if(dateSet.length === 0 && !dateSet[0].isToday()){
-                        streakSet('0');
+                  axios.get('/dashboard')
+                  .then(res => {
+          
+                      const values = res.data.map(temp => dayjs(temp.date));
+                      values.sort((a, b) => b.diff(a, 'day'));
+          
+                      //Calculates the daily streak
+                      if (values.length === 0 || !values[0].isToday()) {
+                          streakSet('0');
                       }
-                      else{
-                        for (let i = 1; i < dateSet.length; i++) {
-                          
-                          const diffInDays = dateSet[i].diff(dateSet[i - 1], 'day');
-                          // If the difference is 1 day, increment the streak
-                          streakSet(i.toString());
-                          if (diffInDays < -1) {
-                            console.log("broke");
-                            break;
+                      else {
+                          for (let i = 1; i < values.length; i++) {
+          
+                              const diffInDays = values[i].diff(values[i - 1], 'day');
+                              // If the difference is 1 day, increment the streak
+                              streakSet(i.toString());
+                              if (diffInDays < -1) {
+                                  break;
+                              }
                           }
                       }
-                      }
-
-                    })
+                  })
 
                 }} >
                 Save

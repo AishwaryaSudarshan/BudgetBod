@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import Homepage from './pages/Homepage';
 import Dashboard from './pages/Dashboard';
+import Stats from './pages/Stats';
 import Recipes from './pages/Recipes';
 import Preferences from './pages/Preferences';
 import MasonryImageList from './components/MasonryImageList';
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<MasonryImageList />} />
           <Route path="/home" element={<Homepage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/stats" element={<Stats />} />
           <Route path="/recipes" element={<Recipes />} />
           <Route path="/faq" element={<FAQ />} />
         </Routes>
