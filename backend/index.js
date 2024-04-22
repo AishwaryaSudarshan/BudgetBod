@@ -44,7 +44,7 @@ app.post("/Dashboard", (req, res)=>{
     }); });
 
     app.get("/stats", (req,res)=>{
-        db.query("SELECT DISTINCT date, calIntake, actType FROM dashTable", (err,result)=>{
+        db.query("SELECT date, calIntake, actType FROM dashTable", (err,result)=>{
             if(err) {
             console.log(err)
             } 

@@ -62,12 +62,14 @@ function Stats() {
                 var weekCals = 0;
                 var dayCals = 0;
                 var dayLog = "Calories\tActivity\n";
-                for (let i = 0; i < values.length && values[i].date.isSame(today, 'week'); i++){
-                    weekCals += values[i].calIntake;
-
+                for (let i = 0; i < values.length; i++){
                     if(values[i].date.isSame(date, 'day')){
                         dayCals += values[i].calIntake;
                         dayLog += values[i].calIntake.toString() + "\t" + values[i].actType + "\n";
+                    }
+
+                    if(values[i].date.isSame(today, 'week')){
+                        weekCals += values[i].calIntake;
                     }
                 }
                 weeklyCalSet(weekCals);
