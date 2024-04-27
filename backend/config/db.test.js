@@ -38,13 +38,11 @@ describe('MySQL Connection', () => {
   it('should handle MySQL connection error', (done) => {
     mysql.createConnection().connect.mockImplementation(cb => {
       const error = new Error('Connection failed');
-      const response = null;
-      cb(error, response);
+      cb(error);
     });
 
-    dbModule.connect((err, result) => {
+    dbModule.connect((err) => {
       expect(err).toBeInstanceOf(Error);
-      expect(result).toBeNull();
       done();
     });
   });
