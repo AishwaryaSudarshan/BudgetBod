@@ -29,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -52,6 +52,14 @@
   },
   "proxy": "http://localhost:3001",
   "devDependencies": {
+    "@babel/plugin-syntax-jsx": "^7.24.1",
+    "supertest": "^7.0.0",
     "tailwindcss": "^3.4.1"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "plugins": {
+    "@babel/plugin-syntax-jsx": "^7.24.1"
   }
 }

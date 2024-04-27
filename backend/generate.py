@@ -52,15 +52,12 @@ thread = client.beta.threads.create(
 app = Flask(__name__)
 
 def processLLMResponse(response):
-    # Placeholder for your logic to extract recipes from the LLM's response.
-    # You'll need to parse the response (likely JSON) and map it to your desired format.
-    # Example: 
     try:
         response_json = json.loads(response.content[0].text.value)
-        return response_json  # Assuming LLM's response is directly the JSON
+        return response_json  
     except json.JSONDecodeError:
         print("The response is not in valid JSON format.")
-        return None  # Return something to indicate an error
+        return None 
 
 
 def generate_recipes(preferences):
@@ -72,7 +69,7 @@ def generate_recipes(preferences):
         })
 
         generated_recipes = processLLMResponse(response)
-        return json.dumps(generated_recipes)  # Convert to JSON string for sending 
+        return json.dumps(generated_recipes) 
 
     except Exception as e:
         print(f"Error: {e}")
